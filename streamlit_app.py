@@ -86,4 +86,4 @@ if user_input:
     # Display assistant message
     with st.chat_message("assistant"):
         st.markdown(bot_response)
-    st.session_state.chat_history.append((bot_response, "assistant"))
+    # st.session_state.chat_history.append((bot_response, "assistant"))
