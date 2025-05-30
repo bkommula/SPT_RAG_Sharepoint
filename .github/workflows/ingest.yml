@@ -29,10 +29,6 @@ jobs:
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
 
       SITE_URL_NEW: ${{ secrets.SITE_URL_NEW }}
-
-      USERNAME: ${{ secrets.USERNAME }}
-
-      PASSWORD: ${{ secrets.PASSWORD }}
  
     steps:
 
