@@ -1,4 +1,4 @@
-name: 🔄 Run SharePoint Ingestion Every 1 Hour
+name: 🔄 Run SharePoint Ingestion Every Day
  
 on:
 
