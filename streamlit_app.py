@@ -78,11 +78,12 @@ if user_input:
 
             # Append sources to the assistant's message
             if sources:
-                formatted_sources = "\n\n📎 **Sources:**\n" + "\n".join(
-                    [f"- [{src}]({src})" if src.startswith("http") else f"- `{src}`" for src in sources]
-                    )
+                unique_sources = list(dict.fromkeys(sources))
+                formatted_sources = "\n\n**Sources:**\n" + "\n".join(
+                    [f"- [{src}]({src})" if src.startswith("http") else f"- `{src}`" for src in unique_sources]
+                )
+                
                 bot_response += formatted_sources
-
             status.update(label="Done", state="complete")
 
     # Display assistant message
