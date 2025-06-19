@@ -18,7 +18,7 @@ CHROMA_PATH = "chroma_db"
 
 PROMPT_TEMPLATE = """
 Use the following context to answer the user's question.
-
+Do not include any source references in your answer — those will be added separately.
 Context:
 {context}
 
