@@ -76,6 +76,25 @@ if user_input:
                 response = llm.invoke(prompt)
                 bot_response = response.content
 
+            refiner_prompt = f"""
+            Take the following assistant response and improve it by summarizing or generalizing where appropriate.
+            Keep the meaning intact and do NOT add any sources or references — those will be added later.
+
+            Response:
+            {bot_response}
+
+            Refined Response:"""
+
+            if LLM_PROVIDER == "openrouter":
+                refined_response_raw = client.chat.completions.create(
+                    model="openai/gpt-4o-mini",  # or use a more concise model here
+                    messages=[{"role": "user", "content": refiner_prompt}]
+                )
+                bot_response = refined_response_raw.choices[0].message.content
+            else:
+                llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-4o-mini-2024-07-18", temperature=0.3)
+                bot_response = llm.invoke(refiner_prompt).content
+
             # Append sources to the assistant's message
             if sources:
                 unique_sources = list(dict.fromkeys(sources))
