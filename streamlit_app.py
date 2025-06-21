@@ -52,26 +52,10 @@ if user_input:
 
     with st.status("Searching the vector store...", expanded=False):
         results = db.similarity_search_with_relevance_scores(user_input, k=5)
-    
-    results = [(doc, score) for doc, score in results if doc.page_content is not None]
 
     if not results or results[0][1] < 0.7:
-        fallback_prompt = f"""
-        Answer the following question as best as you can, even if no supporting documents are available:
-        Question: {user_input}
-        """
-        with st.status("No strong matches found, generating general answer...", expanded=False):
-            if LLM_PROVIDER == "openrouter":
-                client = OpenAI(api_key=OPENROUTER_API_KEY, base_url="https://openrouter.ai/api/v1")
-                response = client.chat.completions.create(
-                    model="openai/gpt-4o-mini",
-                    messages=[{"role": "user", "content": fallback_prompt}]
-                )
-                bot_response = response.choices[0].message.content
-            else:
-                llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-4o-mini-2024-07-18", temperature=0.7)
-                bot_response = llm.invoke(fallback_prompt).content
-
+        bot_response = "I couldn't find relevant information for that."
+        
     else:
         context = "\n\n---\n\n".join([doc.page_content for doc, _ in results])
         sources = list({doc.metadata.get("source", "unknown") for doc, _ in results})
