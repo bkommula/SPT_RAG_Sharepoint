@@ -52,6 +52,8 @@ if user_input:
 
     with st.status("Searching the vector store...", expanded=False):
         results = db.similarity_search_with_relevance_scores(user_input, k=5)
+    
+    results = [(doc, score) for doc, score in results if doc.page_content is not None]
 
     if not results or results[0][1] < 0.7:
         fallback_prompt = f"""
